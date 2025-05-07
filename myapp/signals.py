@@ -2,7 +2,7 @@
 A signal is essentially a message sent by one part of the application (the sender) to another part (the receiver) to notify it of some event that has occurred.
 These signals will be covered:
 - pre_save
-- post_sav
+- post_save
 - pre_delete
 - post_delete
 """
@@ -40,23 +40,27 @@ def update_rank_to_pilot_before_saving(sender, instance, **kwargs):
 #This function is creating a flight report if a new flight is being created
 @receiver(post_save, sender=Flight)
 def generate_report_for_new_flight(sender, instance,created, **kwargs):
+
     print("generate_report_for_new_flight TRIGGERED")
     if created:
         print(f"New flight created with code {instance.code}")
-        describing_the_flight = f'FLIGHT_CODE: {instance.code}:\nThe flight will departure from the airport {instance.departure_airport} and land on {instance.landing_airport}.\n'\
+        describing_the_flight = f'FLIGHT_CODE: {instance.code}:\nThe flight will departure from '\
+                                f'the airport {instance.departure_airport} and land on {instance.landing_airport}.\n'\
                                 f'The company that hosts the flight is {instance.flight_company}, with {instance.balloon.balloon_type} balloon.\n' \
                                 f'Pilot is Mr./Mrs. {instance.pilot.name} {instance.pilot.surname}\n'
         FlightReport.objects.create(flight_instance=instance,description=describing_the_flight)
 
+
 #This is pre_delete signal, that is triggered before something is deleted from the database.
 #It will make something (the logic in the signal), before we delete an instance
+
 @receiver(pre_delete, sender=FlightCompany)
 def move_pilots_to_another_company(sender,instance,**kwargs):
     print("move_pilots_to_another_company TRIGGERED")
     #first we need all the pilots from the FlightCompany
     #we have them in the m-to-n table (AirCompanyPilot model)
-    pilots_to_move = AirCompanyPilot.objects.filter(company=instance).all()
-    for airline_pilot in pilots_to_move:
+    company_pilots_objects = AirCompanyPilot.objects.filter(company=instance).all()
+    for airline_pilot in company_pilots_objects:
         new_possible_companies = FlightCompany.objects.exclude(id=instance.id).all()
         #We check if the pilot already exists to the company, so we don't get the exception
         for new_company in new_possible_companies:
