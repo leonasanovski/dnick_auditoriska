@@ -1,0 +1,13 @@
+Za da kreirame forma:
+1. Mora da ja kreirame samata kako ke izgleda vo forms.py
+2. Da ja registrirame vo views, kaj shto ke ima post/get ili i dvete raboti (zavisi shto e)
+3. Potoa mora da napravime eden template vo koj mora da imame soodvetno 4 raboti
+    <!-- For the form to work we must have:{
+    1. form tag - this is for the method to be sent as post
+    2. enctype="multipart/form-data" - this is for forms
+    3. csrf.token - this token sends to django that there is form
+    4. form.as_p - this is required for the form inputs to be loaded successfully
+    -->
+4. Potoa mora da ja registrirame vo url
+5. Da ja koristime :)
+

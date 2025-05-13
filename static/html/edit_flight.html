@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Flight form</title>
+</head>
+<body>
+<div class="container">
+    <label>Edit flight with id {{ flight_id }}</label>
+    <form method="post" action="{% url 'edit-flight' flight_id %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success" value="Submit">Submit edited</button>
+    </form>
+</div>
+</body>
+</html>

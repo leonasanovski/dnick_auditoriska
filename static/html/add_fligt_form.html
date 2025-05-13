@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Flight</title>
+</head>
+<body>
+<div class="container mb-3">
+    <label>Add Flight form:</label>
+    <form action="{% url 'add-flight' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}  <!-- Must!-->
+        <button type="submit" class="btn btn-success" value="Submit">Submit</button>
+    </form>
+    <!-- For the form to work we must have:{
+    1. form tag - this is for the method to be sent as post
+    2. enctype="multipart/form-data" - this is for forms
+    3. csrf.token - this token sends to django that there is form
+    4. form.as_p - this is required for the form inputs to be loaded successfully
+    -->
+</div>
+</body>
+</html>
